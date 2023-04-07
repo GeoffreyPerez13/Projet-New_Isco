@@ -50,6 +50,7 @@ class Client {
     -nom: String
     -adresse: String
     -email: String
+    -numero: int
     +getIdClient(): int
     +setIdClient(idClient: int): void
     +getNom(): String
@@ -57,12 +58,31 @@ class Client {
     +getAdresse(): String
     +setAdresse(adresse: String): void
     +getEmail(): String
-    +setEmail(email: String): void
+    +setEmail(numero: String): void
+    +getNumero(): int
+    +setNumero(numero: int): void
+}
+
+class Itc {
+    -idItc: int
+    -nom: String
+    -prenom: String
+    -nombreDevis: int
+    +getIdItc(): int
+    +setIdItc(idItc: int): void
+    +getNom(): String
+    +setNom(nom: String): void
+    +getPrenom(): String
+    +setPrenom(prenom: String): void
+    +getNombreDevis(): String
+    +setNombreDevis(nombreDevis: String): void
+    
 }
 
 NewIsco "1" -> "0..*" Devis
 Devis "1" --> "*" ProduitDevis
 ProduitDevis "1" --> "1..*" Produit
 Devis "1" --> "1..*" Client
+Itc "1..*" --> "0..*" Devis
 
 @enduml
