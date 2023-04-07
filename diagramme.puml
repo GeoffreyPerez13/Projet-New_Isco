@@ -1,0 +1,68 @@
+@startuml
+
+class NewIsco {
+    -devis: Devis[]
+    +creerDevis(): Devis
+    +getDevis(idDevis: int): Devis
+    +supprimerDevis(idDevis: int): void
+    +modifierDevis(idDevis: int): void
+    +rechercherDevis(): Devis[]
+}
+
+class Devis {
+    -idDevis: int
+    -date: Date
+    -client: Client
+    -produitsDevis: ProduitDevis[]
+    +getIdDevis(): int
+    +setIdDevis(idDevis: int): void
+    +getDate(): Date
+    +setDate(date: Date): void
+    +getClient(): Client
+    +setClient(client: Client): void
+    +ajouterProduitDevis(ligne: ProduitDevis): void
+    +getProduitsDevis(): ProduitDevis[]
+}
+
+class ProduitDevis {
+    -produit: Produit
+    -quantite: int
+    +getProduit(): Produit
+    +setProduit(produit: Produit): void
+    +getQuantite(): int
+    +setQuantite(quantite: int): void
+}
+
+class Produit {
+    -idProduit: int
+    -nom: String
+    -prixUnitaire: float
+    +getIdProduit(): int
+    +setIdProduit(idProduit: int): void
+    +getNom(): String
+    +setNom(nom: String): void
+    +getPrixUnitaire(): float
+    +setPrixUnitaire(prixUnitaire: float): void
+}
+
+class Client {
+    -idClient: int
+    -nom: String
+    -adresse: String
+    -email: String
+    +getIdClient(): int
+    +setIdClient(idClient: int): void
+    +getNom(): String
+    +setNom(nom: String): void
+    +getAdresse(): String
+    +setAdresse(adresse: String): void
+    +getEmail(): String
+    +setEmail(email: String): void
+}
+
+NewIsco "1" -> "0..*" Devis
+Devis "1" --> "*" ProduitDevis
+ProduitDevis "1" --> "1..*" Produit
+Devis "1" --> "1..*" Client
+
+@enduml
