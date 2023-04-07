@@ -327,6 +327,10 @@ class Client {
      */
     private $email;
 
+    /**
+     * Summary of number
+     * @var
+     */
     private $number;
 
     /**
@@ -340,44 +344,99 @@ class Client {
    
 }
 
+/**
+ * Summary of ITC
+ */
 class ITC{
+     /**
+      * Summary of id
+      * @var int
+      */
      private int $id;
 
+     /**
+      * Summary of name
+      * @var string
+      */
      private string $name;
          
+     /**
+      * Summary of firstName
+      * @var string
+      */
      private string $firstName;
 
+     /**
+      * Summary of devis
+      * @var array
+      */
      private array $devis;
 
+     /**
+      * Summary of getid
+      * @return void
+      */
      public function getid(){
 
      }
 
+     /**
+      * Summary of getName
+      * @return string
+      */
      public function getName(){
         return $this->name;
      }
 
+     /**
+      * Summary of setName
+      * @param mixed $name
+      * @return void
+      */
      public function setName($name){
         $this->name = $name;
      }
 
+     /**
+      * Summary of getFirstName
+      * @return string
+      */
      public function getFirstName(){
         return $this->firstName;
      }
 
+     /**
+      * Summary of setFirstName
+      * @param mixed $firstName
+      * @return void
+      */
      public function setFirstName($firstName){
         $this->firstName = $firstName;
      }
 
+    /**
+     * Summary of addDevis
+     * @param mixed $devisId
+     * @return void
+     */
     public function addDevis($devisId){
         $this->devis[] = $devisId;
     }
 
+    /**
+     * Summary of removeDevis
+     * @param mixed $devisId
+     * @return void
+     */
     public function removeDevis($devisId){
         $index = array_search($devisId, $this->devis, true);
         array_splice($this->devis, $index, 1);
     }
 
+   /**
+    * Summary of getNumberOfDevis
+    * @return int
+    */
    public function  getNumberOfDevis(){
         return count($this->devis);
     }
