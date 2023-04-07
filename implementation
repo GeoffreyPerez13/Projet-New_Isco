@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Summary of NewIsco
+ */
 class NewIsco {
     /**
      * Summary of devis
@@ -67,6 +70,9 @@ class NewIsco {
 }
 
 
+/**
+ * Summary of Devis
+ */
 class Devis {
     /**
      * Summary of idDevis
@@ -89,7 +95,11 @@ class Devis {
      */
     private $produitDevis = [];
 
-    private $itc = [];
+    /**
+     * Summary of itc
+     * @var int
+     */
+    private int $itc;
 
     /**
      * Summary of getIdDevis
@@ -150,19 +160,35 @@ class Devis {
         return $this->produitDevis;
     }
 
+    /**
+     * Summary of getItc
+     * @return int
+     */
     public function getItc(){
         return $this->itc;
     }
 
-    public function addItc($itc){
-        $this->itc[] = $itc;
+    /**
+     * Summary of setItc
+     * @param mixed $itc
+     * @return void
+     */
+    public function setItc($itc){
+        $this->itc = $itc;
         $itc->addDevis($this);
     }
 
+    /**
+     * Summary of deleteDevis
+     * @return void
+     */
     public function deleteDevis(){
         unset($this);
     }
 
+    /**
+     * Summary of __destruct
+     */
     public function __destruct(){
         unset($this->produitDevis);
         echo "Devis détruit";
@@ -170,6 +196,9 @@ class Devis {
 }
 
 
+/**
+ * Summary of ProduitDevis
+ */
 class ProduitDevis {
     /**
      * Summary of id
@@ -183,6 +212,10 @@ class ProduitDevis {
      */
     private $quantite;
 
+    /**
+     * Summary of __construct
+     * @param int $idProduit
+     */
     public function __construct(private int $idProduit){
         $this->idProduit = $idProduit;
     }
@@ -211,15 +244,25 @@ class ProduitDevis {
     public function setQuantite($quantite) {
         $this->quantite = $quantite;
     }
+    /**
+     * Summary of deleteProduitDevis
+     * @return void
+     */
     public function deleteProduitDevis(){
         unset($this);
     }
 
+    /**
+     * Summary of __destruct
+     */
     public function __destruct(){
         echo "Commande detruite";
     }
 }
 
+/**
+ * Summary of Produit
+ */
 class Produit {
     /**
      * Summary of idProduit
@@ -237,6 +280,10 @@ class Produit {
      */
     private $prixUnitaire;
 
+    /**
+     * Summary of produitDevis
+     * @var array
+     */
     private array $produitDevis;
 
     /**
@@ -281,30 +328,54 @@ class Produit {
         $this->prixUnitaire = $prixUnitaire;
     }
 
+    /**
+     * Summary of deleteProduit
+     * @return void
+     */
     public function deleteProduit(){
         unset($this);
     }
 
+    /**
+     * Summary of getProduitDevis
+     * @return array
+     */
     public function getProduitDevis() {
         return $this->produitDevis;
     }
 
+    /**
+     * Summary of addProduitDevis
+     * @param mixed $produitDevis
+     * @return Produit
+     */
     public function addProduitDevis($produitDevis){
         $this->produitDevis[] = $produitDevis;
         return $this;
     }
 
+    /**
+     * Summary of removeProduitDevis
+     * @param mixed $produitDevis
+     * @return void
+     */
     public function removeProduitDevis($produitDevis){
         $index = array_search($produitDevis, $this->produitDevis, true);
         array_splice($this->produitDevis, $index, 1);
     }
 
+    /**
+     * Summary of __destruct
+     */
     public function __destruct(){
         unset($this->produitDevis);
         echo "Produit détruit";
     }
 }
 
+/**
+ * Summary of Client
+ */
 class Client {
     /**
      * Summary of idClient
