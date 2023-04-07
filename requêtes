@@ -1,34 +1,35 @@
-Nom de la BDD: new_isco
+Nom de la BDD: jaune
 
 1) Nombre de devis de 2020 non transformés en commandes :
-SELECT COUNT(*) AS nb_devis_non_transformes
-FROM new_isco.devis
-WHERE YEAR(date_devis) = 2020 AND numero_commande IS NULL;
+SELECT COUNT(*) FROM devis
+WHERE YEAR(date) = 2020 AND produit_devis_id IS NULL;
 
 
 2) Liste des clients (numéro et raison sociale) à qui plus de 5 devis ont été proposés, ordonnée sur le nombre de devis décroissant :
-SELECT client.numero_client, client.raison_sociale, COUNT(devis.id_devis) AS nb_devis_proposes
-FROM new_isco.client
-JOIN new_isco.devis ON client.numero_client = devis.numero_client
-GROUP BY client.numero_client, client.raison_sociale
-HAVING COUNT(devis.id_devis) > 5
-ORDER BY nb_devis_proposes DESC;
+SELECT c.id AS client_id, c.name AS raison_sociale, COUNT(*) AS nombre_de_devis
+FROM devis d
+INNER JOIN client c ON d.client_id = c.id
+GROUP BY c.id
+HAVING COUNT(*) > 5
+ORDER BY COUNT(*) DESC;
 
 
 3) ITC (nom, prénom) qui a transformé le plus de devis de 2020 en commandes :
 SELECT itc.nom, itc.prenom
-FROM new_isco.itc
-JOIN new_isco.devis ON itc.id_itc = devis.id_itc
-WHERE YEAR(date_devis) = 2020 AND numero_commande IS NOT NULL
-GROUP BY itc.id_itc
-ORDER BY COUNT(numero_commande) DESC
-LIMIT 1;
+FROM (
+  SELECT i.nom, i.prenom, COUNT(*) AS nombre_de_devis_transformes
+  FROM devis d
+  INNER JOIN itc i ON d.itc_id = i.id
+  WHERE YEAR(d.date) = 2020 AND d.produit_devis_id IS NOT NULL
+  GROUP BY i.id
+  ORDER BY COUNT(*) DESC
+  LIMIT 1
+) AS itc;
 
 
 4) Liste des ITC (nom, prénom, nombre de devis) du responsable ITC Paul REGENT :
-SELECT itc.nom, itc.prenom, COUNT(devis.id_devis) AS nb_devis
-FROM new_isco.itc
-JOIN new_isco.devis ON itc.id_itc = devis.id_itc
-JOIN new_isco.responsable_itc ON itc.id_itc = responsable_itc.id_itc
-WHERE responsable_itc.nom = 'REGENT' AND responsable_itc.prenom = 'Paul'
-GROUP BY itc.id_itc, itc.nom, itc.prenom;
+SELECT i.nom, i.prenom, COUNT(*) AS nombre_de_devis
+FROM devis d
+INNER JOIN itc i ON d.itc_id = i.id
+WHERE i.responsable_id = (SELECT id FROM responsable_itc WHERE nom = 'REGENT' AND prenom = 'Paul')
+GROUP BY i.id;
