@@ -1,0 +1,39 @@
+Nom de la BDD: new_isco
+
+
+1) Nombre de devis de 2020 non transformés en commandes :
+
+SELECT COUNT(*) AS nb_devis_non_transformes
+FROM new_disco.devis
+WHERE YEAR(date_devis) = 2020 AND numero_commande IS NULL;
+
+
+2) Liste des clients (numéro et raison sociale) à qui plus de 5 devis ont été proposés, ordonnée sur le nombre de devis décroissant :
+
+SELECT client.numero_client, client.raison_sociale, COUNT(devis.id_devis) AS nb_devis_proposes
+FROM new_disco.client
+JOIN new_disco.devis ON client.numero_client = devis.numero_client
+GROUP BY client.numero_client, client.raison_sociale
+HAVING COUNT(devis.id_devis) > 5
+ORDER BY nb_devis_proposes DESC;
+
+
+3) ITC (nom, prénom) qui a transformé le plus de devis de 2020 en commandes :
+
+SELECT itc.nom, itc.prenom
+FROM new_disco.itc
+JOIN new_disco.devis ON itc.id_itc = devis.id_itc
+WHERE YEAR(date_devis) = 2020 AND numero_commande IS NOT NULL
+GROUP BY itc.id_itc
+ORDER BY COUNT(numero_commande) DESC
+LIMIT 1;
+
+
+4) Liste des ITC (nom, prénom, nombre de devis) du responsable ITC Paul REGENT :
+
+SELECT itc.nom, itc.prenom, COUNT(devis.id_devis) AS nb_devis
+FROM new_disco.itc
+JOIN new_disco.devis ON itc.id_itc = devis.id_itc
+JOIN new_disco.responsable_itc ON itc.id_itc = responsable_itc.id_itc
+WHERE responsable_itc.nom = 'REGENT' AND responsable_itc.prenom = 'Paul'
+GROUP BY itc.id_itc, itc.nom, itc.prenom;
