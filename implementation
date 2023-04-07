@@ -1,8 +1,5 @@
 <?php
 
-/**
- * Summary of NewIsco
- */
 class NewIsco {
     /**
      * Summary of devis
@@ -70,9 +67,6 @@ class NewIsco {
 }
 
 
-/**
- * Summary of Devis
- */
 class Devis {
     /**
      * Summary of idDevis
@@ -94,6 +88,8 @@ class Devis {
      * @var array
      */
     private $produitDevis = [];
+
+    private $itc = [];
 
     /**
      * Summary of getIdDevis
@@ -154,17 +150,19 @@ class Devis {
         return $this->produitDevis;
     }
 
-    /**
-     * Summary of deleteDevis
-     * @return void
-     */
+    public function getItc(){
+        return $this->itc;
+    }
+
+    public function addItc($itc){
+        $this->itc[] = $itc;
+        $itc->addDevis($this);
+    }
+
     public function deleteDevis(){
         unset($this);
     }
 
-    /**
-     * Summary of __destruct
-     */
     public function __destruct(){
         unset($this->produitDevis);
         echo "Devis détruit";
@@ -172,9 +170,6 @@ class Devis {
 }
 
 
-/**
- * Summary of ProduitDevis
- */
 class ProduitDevis {
     /**
      * Summary of id
@@ -188,10 +183,6 @@ class ProduitDevis {
      */
     private $quantite;
 
-    /**
-     * Summary of __construct
-     * @param int $idProduit
-     */
     public function __construct(private int $idProduit){
         $this->idProduit = $idProduit;
     }
@@ -220,25 +211,15 @@ class ProduitDevis {
     public function setQuantite($quantite) {
         $this->quantite = $quantite;
     }
-    /**
-     * Summary of deleteProduitDevis
-     * @return void
-     */
     public function deleteProduitDevis(){
         unset($this);
     }
 
-    /**
-     * Summary of __destruct
-     */
     public function __destruct(){
         echo "Commande detruite";
     }
 }
 
-/**
- * Summary of Produit
- */
 class Produit {
     /**
      * Summary of idProduit
@@ -256,10 +237,6 @@ class Produit {
      */
     private $prixUnitaire;
 
-    /**
-     * Summary of produitDevis
-     * @var array
-     */
     private array $produitDevis;
 
     /**
@@ -304,54 +281,30 @@ class Produit {
         $this->prixUnitaire = $prixUnitaire;
     }
 
-    /**
-     * Summary of deleteProduit
-     * @return void
-     */
     public function deleteProduit(){
         unset($this);
     }
 
-    /**
-     * Summary of getProduitDevis
-     * @return array
-     */
     public function getProduitDevis() {
         return $this->produitDevis;
     }
 
-    /**
-     * Summary of addProduitDevis
-     * @param mixed $produitDevis
-     * @return Produit
-     */
     public function addProduitDevis($produitDevis){
         $this->produitDevis[] = $produitDevis;
         return $this;
     }
 
-    /**
-     * Summary of removeProduitDevis
-     * @param mixed $produitDevis
-     * @return void
-     */
     public function removeProduitDevis($produitDevis){
         $index = array_search($produitDevis, $this->produitDevis, true);
         array_splice($this->produitDevis, $index, 1);
     }
 
-    /**
-     * Summary of __destruct
-     */
     public function __destruct(){
         unset($this->produitDevis);
         echo "Produit détruit";
     }
 }
 
-/**
- * Summary of Client
- */
 class Client {
     /**
      * Summary of idClient
@@ -374,6 +327,8 @@ class Client {
      */
     private $email;
 
+    private $number;
+
     /**
      * Summary of getIdClient
      * @return mixed
@@ -383,4 +338,47 @@ class Client {
     }
 
    
+}
+
+class ITC{
+     private int $id;
+
+     private string $name;
+         
+     private string $firstName;
+
+     private array $devis;
+
+     public function getid(){
+
+     }
+
+     public function getName(){
+        return $this->name;
+     }
+
+     public function setName($name){
+        $this->name = $name;
+     }
+
+     public function getFirstName(){
+        return $this->firstName;
+     }
+
+     public function setFirstName($firstName){
+        $this->firstName = $firstName;
+     }
+
+    public function addDevis($devisId){
+        $this->devis[] = $devisId;
+    }
+
+    public function removeDevis($devisId){
+        $index = array_search($devisId, $this->devis, true);
+        array_splice($this->devis, $index, 1);
+    }
+
+   public function  getNumberOfDevis(){
+        return count($this->devis);
+    }
 }
