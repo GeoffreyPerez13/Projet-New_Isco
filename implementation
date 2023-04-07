@@ -1,0 +1,386 @@
+<?php
+
+/**
+ * Summary of NewIsco
+ */
+class NewIsco {
+    /**
+     * Summary of devis
+     * @var array
+     */
+    private $devis = [];
+
+    /**
+     * Summary of creerDevis
+     * @return Devis
+     */
+    public function creerDevis() {
+        $devis = new Devis();
+        $this->devis[] = $devis;
+        return $devis;
+    }
+
+    /**
+     * Summary of getOneDevis
+     * @param mixed $idDevis
+     * @return Devis|null
+     */
+    public function getOneDevis($idDevis) {
+        foreach ($this->devis as $devis) {
+            if ($devis->getIdDevis() == $idDevis) {
+                return $devis;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Summary of supprimerDevis
+     * @param mixed $idDevis
+     * @return void
+     */
+    public function supprimerDevis($idDevis) {
+        foreach ($this->devis as $key => $devis) {
+            if ($devis->getIdDevis() == $idDevis) {
+                unset($this->devis[$key]);
+                return;
+            }
+        }
+    }
+
+    /**
+     * Summary of modifierDevis
+     * @param mixed $idDevis
+     * @return void
+     */
+    public function modifierDevis($idDevis, $newDevis) {
+        $devis = $this->getOneDevis($idDevis);
+        if ($devis != null) {
+            $devis = $newDevis;
+        }
+    }
+
+    /**
+     * Summary of getAllDevis
+     * @return array<Devis>
+     */
+    public function getAllDevis() {
+        return $this->devis;
+    }
+}
+
+
+/**
+ * Summary of Devis
+ */
+class Devis {
+    /**
+     * Summary of idDevis
+     * @var
+     */
+    private $idDevis;
+    /**
+     * Summary of date
+     * @var
+     */
+    private $date;
+    /**
+     * Summary of client
+     * @var
+     */
+    private $client;
+    /**
+     * Summary of produitDevis
+     * @var array
+     */
+    private $produitDevis = [];
+
+    /**
+     * Summary of getIdDevis
+     * @return mixed
+     */
+    public function getIdDevis() {
+        return $this->idDevis;
+    }
+
+    /**
+     * Summary of getDate
+     * @return mixed
+     */
+    public function getDate() {
+        return $this->date;
+    }
+
+    /**
+     * Summary of setDate
+     * @param mixed $date
+     * @return void
+     */
+    public function setDate($date) {
+        $this->date = $date;
+    }
+
+    /**
+     * Summary of getClient
+     * @return mixed
+     */
+    public function getClient() {
+        return $this->client;
+    }
+
+    /**
+     * Summary of setClient
+     * @param mixed $client
+     * @return void
+     */
+    public function setClient($client) {
+        $this->client = $client;
+    }
+
+    /**
+     * Summary of ajouterProduitDevis
+     * @param mixed $produitDevis
+     * @return void
+     */
+    public function ajouterProduitDevis($produitDevis) {
+        $this->produitDevis[] = $produitDevis;
+    }
+
+    /**
+     * Summary of getProduitDevis
+     * @return array
+     */
+    public function getProduitDevis() {
+        return $this->produitDevis;
+    }
+
+    /**
+     * Summary of deleteDevis
+     * @return void
+     */
+    public function deleteDevis(){
+        unset($this);
+    }
+
+    /**
+     * Summary of __destruct
+     */
+    public function __destruct(){
+        unset($this->produitDevis);
+        echo "Devis détruit";
+    }
+}
+
+
+/**
+ * Summary of ProduitDevis
+ */
+class ProduitDevis {
+    /**
+     * Summary of id
+     * @var
+     */
+    private $id;
+
+    /**
+     * Summary of quantite
+     * @var
+     */
+    private $quantite;
+
+    /**
+     * Summary of __construct
+     * @param int $idProduit
+     */
+    public function __construct(private int $idProduit){
+        $this->idProduit = $idProduit;
+    }
+
+    /**
+     * Summary of getidProduit
+     * @return mixed
+     */
+    public function getidProduit() {
+        return $this->idProduit;
+    }
+
+    /**
+     * Summary of getQuantite
+     * @return mixed
+     */
+    public function getQuantite() {
+        return $this->quantite;
+    }
+
+    /**
+     * Summary of setQuantite
+     * @param mixed $quantite
+     * @return void
+     */
+    public function setQuantite($quantite) {
+        $this->quantite = $quantite;
+    }
+    /**
+     * Summary of deleteProduitDevis
+     * @return void
+     */
+    public function deleteProduitDevis(){
+        unset($this);
+    }
+
+    /**
+     * Summary of __destruct
+     */
+    public function __destruct(){
+        echo "Commande detruite";
+    }
+}
+
+/**
+ * Summary of Produit
+ */
+class Produit {
+    /**
+     * Summary of idProduit
+     * @var
+     */
+    private $idProduit;
+    /**
+     * Summary of nom
+     * @var
+     */
+    private $nom;
+    /**
+     * Summary of prixUnitaire
+     * @var
+     */
+    private $prixUnitaire;
+
+    /**
+     * Summary of produitDevis
+     * @var array
+     */
+    private array $produitDevis;
+
+    /**
+     * Summary of getIdProduit
+     * @return mixed
+     */
+    public function getIdProduit() {
+        return $this->idProduit;
+    }
+
+    /**
+     * Summary of getNom
+     * @return mixed
+     */
+    public function getNom() {
+        return $this->nom;
+    }
+
+    /**
+     * Summary of setNom
+     * @param mixed $nom
+     * @return void
+     */
+    public function setNom($nom) {
+        $this->nom = $nom;
+    }
+
+    /**
+     * Summary of getPrixUnitaire
+     * @return mixed
+     */
+    public function getPrixUnitaire() {
+        return $this->prixUnitaire;
+    }
+
+    /**
+     * Summary of setPrixUnitaire
+     * @param mixed $prixUnitaire
+     * @return void
+     */
+    public function setPrixUnitaire($prixUnitaire) {
+        $this->prixUnitaire = $prixUnitaire;
+    }
+
+    /**
+     * Summary of deleteProduit
+     * @return void
+     */
+    public function deleteProduit(){
+        unset($this);
+    }
+
+    /**
+     * Summary of getProduitDevis
+     * @return array
+     */
+    public function getProduitDevis() {
+        return $this->produitDevis;
+    }
+
+    /**
+     * Summary of addProduitDevis
+     * @param mixed $produitDevis
+     * @return Produit
+     */
+    public function addProduitDevis($produitDevis){
+        $this->produitDevis[] = $produitDevis;
+        return $this;
+    }
+
+    /**
+     * Summary of removeProduitDevis
+     * @param mixed $produitDevis
+     * @return void
+     */
+    public function removeProduitDevis($produitDevis){
+        $index = array_search($produitDevis, $this->produitDevis, true);
+        array_splice($this->produitDevis, $index, 1);
+    }
+
+    /**
+     * Summary of __destruct
+     */
+    public function __destruct(){
+        unset($this->produitDevis);
+        echo "Produit détruit";
+    }
+}
+
+/**
+ * Summary of Client
+ */
+class Client {
+    /**
+     * Summary of idClient
+     * @var
+     */
+    private $idClient;
+    /**
+     * Summary of nom
+     * @var
+     */
+    private $nom;
+    /**
+     * Summary of adresse
+     * @var
+     */
+    private $adresse;
+    /**
+     * Summary of email
+     * @var
+     */
+    private $email;
+
+    /**
+     * Summary of getIdClient
+     * @return mixed
+     */
+    public function getIdClient() {
+        return $this->idClient;
+    }
+
+   
+}
