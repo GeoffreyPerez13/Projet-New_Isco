@@ -25,9 +25,9 @@ LIMIT 1;
 
 
 4) Liste des ITC (nom, prénom, nombre de devis) du responsable ITC Paul REGENT :
-SELECT i.nom, i.prenom, COUNT(*) AS nb_devis
-FROM itc i
-JOIN devis d ON i.devis_id = d.id
-JOIN itc responsable ON responsable.devis_id = d.id AND responsable.nom = 'REGENT' AND responsable.prenom = 'Paul'
-GROUP BY i.id
-ORDER BY COUNT(*) DESC;
+SELECT i.last_name, i.first_name, COUNT( * ) AS nb_devis 
+FROM itc i 
+JOIN devis d ON i.devis_id = d.id 
+JOIN itc responsable ON responsable.devis_id = d.id AND responsable.last_name = 'REGENT' AND responsable.first_name = 'Paul' 
+GROUP BY i.id 
+ORDER BY COUNT( * ) DESC;
