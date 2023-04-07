@@ -1,35 +1,33 @@
 Nom de la BDD: jaune
 
 1) Nombre de devis de 2020 non transformés en commandes :
-SELECT COUNT(*) FROM devis
+SELECT COUNT(*) FROM devis 
 WHERE YEAR(date) = 2020 AND produit_devis_id IS NULL;
 
 
 2) Liste des clients (numéro et raison sociale) à qui plus de 5 devis ont été proposés, ordonnée sur le nombre de devis décroissant :
-SELECT c.id AS client_id, c.name AS raison_sociale, COUNT(*) AS nombre_de_devis
-FROM devis d
-INNER JOIN client c ON d.client_id = c.id
+SELECT c.numero, c.name AS raison_sociale, COUNT(*) AS nb_devis_proposes
+FROM client c
+JOIN devis d ON c.id = d.client_id
 GROUP BY c.id
 HAVING COUNT(*) > 5
 ORDER BY COUNT(*) DESC;
 
 
 3) ITC (nom, prénom) qui a transformé le plus de devis de 2020 en commandes :
-SELECT itc.nom, itc.prenom
-FROM (
-  SELECT i.nom, i.prenom, COUNT(*) AS nombre_de_devis_transformes
-  FROM devis d
-  INNER JOIN itc i ON d.itc_id = i.id
-  WHERE YEAR(d.date) = 2020 AND d.produit_devis_id IS NOT NULL
-  GROUP BY i.id
-  ORDER BY COUNT(*) DESC
-  LIMIT 1
-) AS itc;
+SELECT i.nom, i.prenom, COUNT(*) AS nb_devis_transformes_en_commandes
+FROM itc i
+JOIN devis d ON i.devis_id = d.id
+WHERE YEAR(d.date) = 2020 AND d.produit_devis_id IS NOT NULL
+GROUP BY i.id
+ORDER BY COUNT(*) DESC
+LIMIT 1;
 
 
 4) Liste des ITC (nom, prénom, nombre de devis) du responsable ITC Paul REGENT :
-SELECT i.nom, i.prenom, COUNT(*) AS nombre_de_devis
-FROM devis d
-INNER JOIN itc i ON d.itc_id = i.id
-WHERE i.responsable_id = (SELECT id FROM responsable_itc WHERE nom = 'REGENT' AND prenom = 'Paul')
-GROUP BY i.id;
+SELECT i.nom, i.prenom, COUNT(*) AS nb_devis
+FROM itc i
+JOIN devis d ON i.devis_id = d.id
+JOIN itc responsable ON responsable.devis_id = d.id AND responsable.nom = 'REGENT' AND responsable.prenom = 'Paul'
+GROUP BY i.id
+ORDER BY COUNT(*) DESC;
